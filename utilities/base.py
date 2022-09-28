@@ -1,12 +1,16 @@
+import  logging.config
+import os.path
+from pathlib import Path
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-class Logger():
-    def __init__(self, logger_name='apiframework'):
+class Base():
+    ROOT_PATH = str(Path(__file__).parent.parent)
+    def __init__(self, logger_name='webframework'):
         # 创建一个logger实例，如果参数为空则返回root logger
         self.logger = logging.getLogger(logger_name)
         logging.root.setLevel(logging.NOTSET)
-        self.log_file_name = './testout/test.log'
+        self.log_file_name = os.path.join(Base.ROOT_PATH,'logs','logfile.log')
         self.backup_count = 5
 
         # 日志输出级别
@@ -37,8 +41,5 @@ class Logger():
             self.logger.addHandler(file_handler)
         return self.logger
 
-
-logger = Logger().get_logger()
-
 if __name__ == '__main__':
-    print(logger)
+    print(Base().get_logger())
